@@ -8,7 +8,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Opera_with_id](
-   [Id] int identity(1,1) primary key,
+   [Id] varchar(255) primary key,
 	[Hotel] [varchar](255) NOT NULL,
 	[TRX_NO] [int] NOT NULL,
 	[IS_INTERNAL_YN] [varchar](255) NULL,
@@ -61,3 +61,4 @@ GO
 
 ALTER TABLE [dbo].[Opera_with_id] ADD  CONSTRAINT [DF_Opera_DateProcessed_id]  DEFAULT (getdate()) FOR [DateProcessed]
 GO
+
