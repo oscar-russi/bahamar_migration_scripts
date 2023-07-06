@@ -6,6 +6,9 @@
 USE [CrossPosting_test2]
 GO
 
+
+drop table IBS0;
+
 drop table IBS;
 
 EXEC sp_rename 'IBS_with_id', 'IBS';

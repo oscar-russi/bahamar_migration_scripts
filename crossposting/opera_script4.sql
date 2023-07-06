@@ -67,7 +67,7 @@ BEGIN
         -- Use a temporary table to hold the batch of rows
         INSERT INTO #TempTable
         SELECT TOP (@BatchSize) *
-        FROM Opera
+        FROM Opera0
 
         -- Insert the rows into the destination table
         INSERT INTO Opera_with_id
@@ -76,12 +76,12 @@ BEGIN
 
         -- Delete the rows from the source table
 
-        DELETE Opera
+        DELETE Opera0
 		WHERE EXISTS (
     SELECT 1
     FROM #TempTable
-    WHERE opera.Hotel = #TempTable.Hotel
-    AND opera.TRX_NO = #TempTable.TRX_NO
+    WHERE opera0.Hotel = #TempTable.Hotel
+    AND opera0.TRX_NO = #TempTable.TRX_NO
 )
 
 

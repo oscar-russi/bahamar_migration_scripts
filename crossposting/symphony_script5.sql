@@ -12,49 +12,43 @@ BEGIN
     BEGIN TRANSACTION
     BEGIN TRY
 	CREATE TABLE #TempTable (
-    [Outlet] [varchar](50) NOT NULL,
-	[Invoice] [int] NOT NULL,
-	[CustNumber] [varchar](50) NOT NULL,
-	[ReferenceNumber] [varchar](50) NOT NULL,
-	[Verification] [varchar](50) NOT NULL,
-	[ActualDateTime] [datetime] NOT NULL,
-	[Empl] [int] NOT NULL,
-	[Tender] [varchar](255) NOT NULL,
-	[AmountPaid] [decimal](18, 2) NOT NULL,
-	[Tip] [decimal](18, 2) NOT NULL,
-	[ZDate] [date] NOT NULL,
-	[Z] [varchar](255) NOT NULL,
-	[Change] [decimal](18, 2) NOT NULL,
-	[Filename] [varchar](255) NOT NULL,
-	[DateProcessed] [datetime] NOT NULL,
+    [Hotel] [varchar](255) NULL,
+	[Groups] [varchar](255) NULL,
+	[RevenueCenter] [varchar](255) NULL,
+	[CheckNumber] [int] NULL,
+	[BusinessDate] [date] NULL,
+	[TransactionDateTime] [datetime] NULL,
+	[ItemName] [varchar](255) NULL,
+	[ItemNumber] [int] NULL,
+	[LineCount] [int] NULL,
+	[LineTotal] [decimal](18, 2) NULL,
+	[CheckEmployee] [varchar](255) NULL,
+	[TransactionEmployee] [varchar](255) NULL,
+	[AuthorizingEmployee] [varchar](255) NULL,
+	[ReferenceInfo] [varchar](255) NULL,
+	[Filename] [varchar](255) NULL,
+	[DateProcessed] [datetime] NULL,
+	[uniq] [int] NOT NULL,
     PRIMARY KEY(
-	[Outlet],
-	[Invoice],
-	[CustNumber],
-	[ReferenceNumber],
-	[Verification])
+	uniq)
     )
         -- Use a temporary table to hold the batch of rows
         INSERT INTO #TempTable
         SELECT TOP (@BatchSize) *
-        FROM IBS
+        FROM Symphony0
 
         -- Insert the rows into the destination table
-        INSERT INTO IBS_with_id
+        INSERT INTO Symphony_with_id
         SELECT *
         FROM #TempTable;
 
         -- Delete the rows from the source table
 
-        DELETE IBS
+        DELETE Symphony0
 		WHERE EXISTS (
     SELECT 1
     FROM #TempTable
-    WHERE IBS.[Outlet] = #TempTable.[Outlet]
-    AND IBS.[Invoice] = #TempTable.[Invoice]
-	AND IBS.[CustNumber] = #TempTable.[CustNumber]
-	AND IBS.[ReferenceNumber] = #TempTable.[ReferenceNumber]
-	AND IBS.[Verification] = #TempTable.[Verification]
+    WHERE Symphony0.uniq = #TempTable.uniq
 )
 
 

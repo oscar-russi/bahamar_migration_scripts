@@ -6,6 +6,8 @@
 USE [CrossPosting_test2]
 GO
 
+drop table Opera0;
+
 drop table Opera;
 
 EXEC sp_rename 'Opera_with_id', 'Opera';

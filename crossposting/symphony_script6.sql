@@ -7,16 +7,10 @@
 USE [CrossPosting_test2]
 GO
 
+drop table Symphony0;
+
 drop table Symphony;
 
 EXEC sp_rename 'Symphony_with_id', 'Symphony';
 
 EXEC sp_rename 'DF__Symphony__DatePr__1CBC4616_id', 'DF__Symphony__DatePr__1CBC4616', 'OBJECT';
-
-alter table Symphony
-drop column uniq;
-
-select count(*) from Opera_with_id
-select count(*) from Opera
-
-11255000

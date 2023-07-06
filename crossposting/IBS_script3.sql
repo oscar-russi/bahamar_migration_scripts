@@ -12,43 +12,49 @@ BEGIN
     BEGIN TRANSACTION
     BEGIN TRY
 	CREATE TABLE #TempTable (
-    [Hotel] [varchar](255) NULL,
-	[Groups] [varchar](255) NULL,
-	[RevenueCenter] [varchar](255) NULL,
-	[CheckNumber] [int] NULL,
-	[BusinessDate] [date] NULL,
-	[TransactionDateTime] [datetime] NULL,
-	[ItemName] [varchar](255) NULL,
-	[ItemNumber] [int] NULL,
-	[LineCount] [int] NULL,
-	[LineTotal] [decimal](18, 2) NULL,
-	[CheckEmployee] [varchar](255) NULL,
-	[TransactionEmployee] [varchar](255) NULL,
-	[AuthorizingEmployee] [varchar](255) NULL,
-	[ReferenceInfo] [varchar](255) NULL,
-	[Filename] [varchar](255) NULL,
-	[DateProcessed] [datetime] NULL,
-	[uniq] [int] NOT NULL,
+    [Outlet] [varchar](50) NOT NULL,
+	[Invoice] [int] NOT NULL,
+	[CustNumber] [varchar](50) NOT NULL,
+	[ReferenceNumber] [varchar](50) NOT NULL,
+	[Verification] [varchar](50) NOT NULL,
+	[ActualDateTime] [datetime] NOT NULL,
+	[Empl] [int] NOT NULL,
+	[Tender] [varchar](255) NOT NULL,
+	[AmountPaid] [decimal](18, 2) NOT NULL,
+	[Tip] [decimal](18, 2) NOT NULL,
+	[ZDate] [date] NOT NULL,
+	[Z] [varchar](255) NOT NULL,
+	[Change] [decimal](18, 2) NOT NULL,
+	[Filename] [varchar](255) NOT NULL,
+	[DateProcessed] [datetime] NOT NULL,
     PRIMARY KEY(
-	uniq)
+	[Outlet],
+	[Invoice],
+	[CustNumber],
+	[ReferenceNumber],
+	[Verification])
     )
         -- Use a temporary table to hold the batch of rows
         INSERT INTO #TempTable
         SELECT TOP (@BatchSize) *
-        FROM Symphony
+        FROM IBS0
 
         -- Insert the rows into the destination table
-        INSERT INTO Symphony_with_id
+        INSERT INTO IBS_with_id
         SELECT *
         FROM #TempTable;
 
         -- Delete the rows from the source table
 
-        DELETE Symphony
+        DELETE IBS0
 		WHERE EXISTS (
-    SELECT 1
+    SELECT TOP 1 1
     FROM #TempTable
-    WHERE Symphony.uniq = #TempTable.uniq
+    WHERE IBS0.[Outlet] = #TempTable.[Outlet]
+    AND IBS0.[Invoice] = #TempTable.[Invoice]
+	AND IBS0.[CustNumber] = #TempTable.[CustNumber]
+	AND IBS0.[ReferenceNumber] = #TempTable.[ReferenceNumber]
+	AND IBS0.[Verification] = #TempTable.[Verification]
 )
 
 
@@ -64,8 +70,6 @@ BEGIN
         -- Roll back the transaction in case of error
         ROLLBACK
     END CATCH
-    -- Optional: wait for a bit before the next batch
-    WAITFOR DELAY '00:00:01'
 END
 
 -----------------------------------------------------------------------------------------------

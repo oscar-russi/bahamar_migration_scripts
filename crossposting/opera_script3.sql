@@ -56,7 +56,7 @@ Use CrossPosting_test2;
     -- Declare a cursor for the inserted rows
     DECLARE cursor_inserted CURSOR LOCAL FAST_FORWARD FOR
         SELECT *
-        FROM Opera;
+        FROM Opera0;
 
     -- Open the cursor
     OPEN cursor_inserted;
@@ -164,7 +164,7 @@ Use CrossPosting_test2;
 	,@DateProcessed 
 	,@CHECK_NUMBER 
 	,@VAT_BRAND;
-	delete from Opera where Hotel=@Hotel and TRX_NO=@TRX_NO;
+	delete from Opera0 where Hotel=@Hotel and TRX_NO=@TRX_NO;
         FETCH NEXT FROM cursor_inserted INTO @Hotel 
 	,@TRX_NO 
 	,@IS_INTERNAL_YN 
