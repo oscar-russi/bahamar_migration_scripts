@@ -98,7 +98,7 @@ BEGIN
         ROLLBACK
     END CATCH
     -- Optional: wait for a bit before the next batch
-    WAITFOR DELAY '00:00:01'
+    --WAITFOR DELAY '00:00:01'
 END
 
 -----------------------------------------------------------------------------------------------

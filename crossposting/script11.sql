@@ -16,3 +16,7 @@ EXEC sp_rename 'DF__Symphony__DatePr__1CBC4616_id', 'DF__Symphony__DatePr__1CBC4
 alter table Symphony
 drop column uniq;
 
+select count(*) from Opera_with_id
+select count(*) from Opera
+
+11255000
