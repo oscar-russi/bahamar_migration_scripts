@@ -14,3 +14,7 @@ drop table Symphony;
 EXEC sp_rename 'Symphony_with_id', 'Symphony';
 
 EXEC sp_rename 'DF__Symphony__DatePr__1CBC4616_id', 'DF__Symphony__DatePr__1CBC4616', 'OBJECT';
+
+
+ALTER TABLE Symphony
+DROP COLUMN uniq;
